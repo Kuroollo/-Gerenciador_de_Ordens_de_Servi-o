@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Ordens de Serviço</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+     <link rel="shortcut icon" href="src/img/favicon/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ Gerenciador de Ordens de Serviço</h1>
+
+        <div class="top-bar">
+            <button class="btn btn-nova-os" id="btnAbrirModal">➕ Nova OS</button>
+            <div class="export-buttons">
+                <button class="btn btn-pequeno" onclick="exportarListaPDF('ativas')">📄 PDF (Abertas)</button>
+                <button class="btn btn-pequeno" onclick="exportarListaExcel('ativas')">📊 Excel (Abertas)</button>
+                <button class="btn btn-exportar" onclick="exportarListaPDF('todas')">📥 Relatório Completo PDF</button>
+                <button class="btn btn-exportar" onclick="exportarListaExcel('todas')">📥 Relatório Completo Excel</button>
+                <button class="btn btn-backup" onclick="exportarBackup()">💾 Backup JSON</button>
+                <button class="btn btn-restore" onclick="importarBackupPrompt()">📂 Restaurar JSON</button>
+            </div>
+        </div>
+
+        <input type="text" id="busca" class="campo-busca" placeholder="🔍 Buscar por nome, ID, equipamento ou telefone..." oninput="renderizarTabelas()">
+
+        <div class="card">
+            <div class="card-header">
+                <h2>📋 OS em Aberto</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="tabela-ativas">
+                    <thead>
+                        <tr><th>ID</th><th>Cliente</th><th>Contato</th><th>Equipamento</th><th>Serviço</th><th>Prazo</th><th>Status</th><th>Ações</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>✅ Entregues</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="tabela-entregues">
+                    <thead><tr><th>ID</th><th>Cliente</th><th>Contato</th><th>Equipamento</th><th>Serviço</th><th>Prazo</th><th>Ações</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="grafico-container">
+                <h3>📊 Status das OS (não entregues)</h3>
+                <canvas id="grafico-status"></canvas>
+            </div>
+            <div class="grafico-container">
+                <h3>⚡ Urgências (não entregues)</h3>
+                <canvas id="grafico-urgencia"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Nova OS</h2>
+            <input type="hidden" id="edit-id" value="">
+
+            <div class="form-group">
+                <label>Nome do cliente *</label>
+                <input type="text" id="cliente" required>
+            </div>
+            <div class="form-group">
+                <label>Telefone / WhatsApp</label>
+                <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX">
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" id="email" placeholder="cliente@email.com">
+            </div>
+            <div class="form-group">
+                <label>Equipamento / Marca</label>
+                <input type="text" id="equipamento" placeholder="Ex: Notebook Samsung vermelho">
+            </div>
+            <div class="form-group">
+                <label>O que precisa ser feito</label>
+                <textarea id="descricaoServico" rows="3" placeholder="Ex: Trocar SSD, limpeza, instalar Windows..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Data de entrada *</label>
+                <input type="date" id="dataEntrada" required>
+            </div>
+            <div class="form-group">
+                <label>Prazo de entrega *</label>
+                <input type="date" id="prazo" required>
+            </div>
+            <div class="form-group">
+                <label>Urgente</label>
+                <input type="checkbox" id="urgencia">
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="status">
+                    <option value="analisado">Analisado</option>
+                    <option value="em_andamento">Em andamento</option>
+                    <option value="pronto">Pronto</option>
+                    <option value="entregue">Entregue</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-salvar" onclick="salvarOS()">💾 Salvar</button>
+                <button class="btn btn-cancelar" onclick="fecharModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/script.js"></script>
+</body>
+</html>

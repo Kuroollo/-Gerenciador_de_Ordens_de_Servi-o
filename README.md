@@ -45,13 +45,13 @@
 
 | Cor | Nome | Hex |
 |-----|------|-----|
-| 🟦 Deep Ocean | `#154C56` |
-| 🟩 Tidal Blue | `#3A7B8C` |
-| 🟨 Goldan Dune | `#D4AF37` |
-| ⬜ Ivory Sand | `#F5F0E6` (usada em detalhes) |
-| ⬜ Sky Mist | `#9CB7C7` |
-| ⬛ Midnight | `#1A2D3C` |
-| 🔵 Blue Ash | `#5F7D8C` |
+| 🟦  |Deep Ocean | `#154C56` |
+| 🟩  |Tidal Blue | `#3A7B8C` |
+| 🟨  | Goldan Dune | `#D4AF37` |
+| ⬜  |vory Sand | `#F5F0E6` (usada em detalhes) |
+| ⬜  |ky Mist | `#9CB7C7` |
+| ⬛  |Midnight | `#1A2D3C` |
+| 🔵  |Blue Ash | `#5F7D8C` |
 
 As cores são facilmente alteráveis no `:root` do CSS.
 
